@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DragonballApp</string>
+    <string name="dragonball_app">App de Dragon ball</string>
+    <string name="insert_user">Introduce to usuario</string>
+    <string name="insert_password">Introduce tu password</string>
+    <string name="login">Inicia sesión</string>
+</resources>
