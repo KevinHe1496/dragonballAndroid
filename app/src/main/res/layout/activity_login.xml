@@ -28,6 +28,7 @@
             android:background="@color/orange">
     <!-- username -->
     <EditText
+        android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
@@ -35,20 +36,24 @@
 
     <!-- password -->
     <EditText
+        android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="@string/insert_password"/>
 
     <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cbRememberUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remember_user"/>
 
 </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+
     <!-- boton login -->
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/bLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"
