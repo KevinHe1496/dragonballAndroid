@@ -5,4 +5,5 @@
     <string name="insert_user">Introduce to usuario</string>
     <string name="insert_password">Introduce tu password</string>
     <string name="login">Inicia sesión</string>
+    <string name="remember_user">Recordarme</string>
 </resources>

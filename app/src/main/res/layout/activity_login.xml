@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:gravity="center_horizontal"
+              android:background="@mipmap/fondo_login"
     android:orientation="vertical"
     >
     <!-- Title -->
@@ -15,7 +16,16 @@
         android:layout_height="wrap_content"
         android:text="@string/dragonball_app"
         android:layout_margin="24dp" />
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_height="wrap_content">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
 
+            android:background="@color/orange">
     <!-- username -->
     <EditText
         android:layout_width="match_parent"
@@ -30,8 +40,15 @@
         android:inputType="textPassword"
         android:hint="@string/insert_password"/>
 
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remember_user"/>
+
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
     <!-- boton login -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"
