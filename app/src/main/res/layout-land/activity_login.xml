@@ -45,6 +45,14 @@
             android:text="@string/remember_user"/>
 
 </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
     <!-- boton login -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bLogin"
