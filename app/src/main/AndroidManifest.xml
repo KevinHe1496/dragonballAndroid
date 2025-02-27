@@ -27,7 +27,7 @@
 
         <activity
             android:name=".juego.JuegoActivity"
-            android:exported="true">
+            android:exported="false">
 
         </activity>
     </application>

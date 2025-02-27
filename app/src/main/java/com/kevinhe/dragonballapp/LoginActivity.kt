@@ -1,5 +1,6 @@
 package com.kevinhe.dragonballapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.kevinhe.dragonballapp.databinding.ActivityLoginBinding
+import com.kevinhe.dragonballapp.juego.JuegoActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -21,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
     // Esto permite gestionar el ciclo de vida del ViewModel automáticamente
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var biding : ActivityLoginBinding
+
+
 
     // Método onCreate, se ejecuta al crear la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
                         // TODO ir a la siguiente pantalla
                         biding.pbLoading.visibility = View.INVISIBLE
                         Toast.makeText(this@LoginActivity, "Ha ocurrido un error. ${state.token}", Toast.LENGTH_SHORT).show()
+                        startJuegoActivity(state.token)
                     }
                     is LoginViewModel.State.Error -> {
                         biding.pbLoading.visibility = View.INVISIBLE
@@ -72,5 +77,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun startJuegoActivity(token: String) {
+        JuegoActivity.startJuegoActivity(this, token)
     }
 }

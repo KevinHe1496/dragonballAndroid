@@ -1,5 +1,6 @@
 package com.kevinhe.dragonballapp.juego
 
+import android.media.session.MediaSession.Token
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kevinhe.dragonballapp.model.Personaje
@@ -11,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class JuegoViewModel: ViewModel() {
 
+    private var token: String? = null
+
     sealed class State {
         data object Loading: State()
         data class Success(val personajes: List<Personaje>): State()
@@ -19,6 +22,10 @@ class JuegoViewModel: ViewModel() {
 
     private val _uistate = MutableStateFlow<State>(State.Loading)
     val uiState: StateFlow<State> = _uistate.asStateFlow()
+
+    fun actualizarToken(token: String) {
+        this.token = token
+    }
 
     fun descargarPersonajes() {
 
