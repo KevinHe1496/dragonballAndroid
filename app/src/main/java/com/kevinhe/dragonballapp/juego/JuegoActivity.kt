@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kevinhe.dragonballapp.R
 import com.kevinhe.dragonballapp.databinding.ActivityJuegoBinding
 import com.kevinhe.dragonballapp.databinding.ActivityLoginBinding
+import com.kevinhe.dragonballapp.juego.listado.ListadoFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,11 +32,7 @@ class JuegoActivity : AppCompatActivity() {
 
     private val viewModel: JuegoViewModel by viewModels()
     private lateinit var biding: ActivityJuegoBinding
-    private val personajesAdapter = PersonajeAdapter(
-        onPersonajeClicked = { personaje ->
-            Toast.makeText(this, personaje.nombre, Toast.LENGTH_SHORT).show()
-        }
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,35 +47,18 @@ class JuegoActivity : AppCompatActivity() {
             finish() // termina el activity
         }
 
-        initViews()
-        setObservers()
-
         viewModel.descargarPersonajes()
-
+        initFragments()
     }
 
-    private fun initViews() {
-        biding.rvPersonajes.layoutManager = LinearLayoutManager(this)
-        biding.rvPersonajes.adapter = personajesAdapter
-    }
-
-    private fun setObservers() {
-        lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                when(state) {
-                    is JuegoViewModel.State.Loading -> {
-                        biding.pbLoading.visibility = View.VISIBLE
-                    }
-                    is JuegoViewModel.State.Success -> {
-                        biding.pbLoading.visibility = View.GONE
-                        personajesAdapter.actualizarPersonajes(state.personajes)
-                    }
-                    is JuegoViewModel.State.Error -> {
-                        biding.pbLoading.visibility = View.GONE
-                    }
-                }
-
-            }
+    private fun initFragments() {
+        supportFragmentManager.beginTransaction().apply {
+            replace(biding.flHome.id, ListadoFragment())
+            addToBackStack(null)
+            commit()
         }
     }
+
+
+
 }
