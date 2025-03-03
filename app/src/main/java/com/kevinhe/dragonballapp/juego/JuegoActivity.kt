@@ -15,15 +15,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kevinhe.dragonballapp.R
 import com.kevinhe.dragonballapp.databinding.ActivityJuegoBinding
 import com.kevinhe.dragonballapp.databinding.ActivityLoginBinding
+import com.kevinhe.dragonballapp.juego.detalles.DetalleFragment
 import com.kevinhe.dragonballapp.juego.listado.ListadoFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class JuegoActivity : AppCompatActivity() {
+interface OpcionesJuego {
+    fun irAlListado()
+    fun irAlDetalle()
+}
+
+class JuegoActivity : AppCompatActivity(), OpcionesJuego {
 
     companion object {
         private val TAG_TOKEN = "token"
-         fun startJuegoActivity(context: Context, token: String) {
+        fun startJuegoActivity(context: Context, token: String) {
             val intent = Intent(context, JuegoActivity::class.java)
             intent.putExtra(TAG_TOKEN, token)
             context.startActivity(intent)
@@ -43,7 +49,8 @@ class JuegoActivity : AppCompatActivity() {
         token?.let {
             viewModel.actualizarToken(token)
         } ?: run {
-            Toast.makeText(this, "No hay token. La activity se va a cerrar.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No hay token. La activity se va a cerrar.", Toast.LENGTH_SHORT)
+                .show()
             finish() // termina el activity
         }
 
@@ -52,6 +59,11 @@ class JuegoActivity : AppCompatActivity() {
     }
 
     private fun initFragments() {
+        irAlListado()
+    }
+
+
+    override fun irAlListado() {
         supportFragmentManager.beginTransaction().apply {
             replace(biding.flHome.id, ListadoFragment())
             addToBackStack(null)
@@ -59,6 +71,12 @@ class JuegoActivity : AppCompatActivity() {
         }
     }
 
+    override fun irAlDetalle() {
+        supportFragmentManager.beginTransaction().apply {
+            replace(biding.flHome.id, DetalleFragment())
+            addToBackStack(null)
+            commit()
+         }
 
-
-}
+        }
+    }

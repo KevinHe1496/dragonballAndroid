@@ -9,15 +9,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class JuegoViewModel: ViewModel() {
 
+    private val BASE_URL = "https://dragonball.keepcoding.education/api/"
     private var token: String? = null
 
     sealed class State {
         data object Loading: State()
         data class Success(val personajes: List<Personaje>): State()
         data class Error(val message: String): State()
+        data class PersonajeSeleccionado(val personaje: Personaje): State()
     }
 
     private val _uistate = MutableStateFlow<State>(State.Loading)
@@ -27,20 +32,38 @@ class JuegoViewModel: ViewModel() {
         this.token = token
     }
 
+    fun personajeSeleccionado(personaje: Personaje) {
+        _uistate.value = State.PersonajeSeleccionado(personaje)
+    }
+
     fun descargarPersonajes() {
 
         viewModelScope.launch {
         _uistate.value = State.Loading
-        delay(2000L)
-        _uistate.value = State.Success(fetchPersonajes())
+
+            var client = OkHttpClient()
+            val url = "${BASE_URL}heros/all"
+
+            val formBody = FormBody.Builder()
+                .add("name", "")
+                .build()
+
+            val request = Request.Builder()
+                .url(url)
+                .post(formBody)
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+
+            val call = client.newCall(request)
+            val response = call.execute()
+
+            if (response.isSuccessful) {
+                //TODO Analizar la respuesta que viene en json y pasarlo a lista
+                _uistate.value = State.Success(listOf())
+            } else {
+                _uistate.value = State.Error("Error al descargar los personajes. ${response.message}")
+            }
         }
     }
 
-    private fun fetchPersonajes() = listOf(
-        Personaje("1", "Goku", "https://cdn.alfabetajuega.com/alfabetajuega/2020/12/goku1.jpg?width=300", 100, 100),
-        Personaje("2", "Vegeta", "https://cdn.alfabetajuega.com/alfabetajuega/2020/12/vegetita.jpg?width=300", 100, 100),
-        Personaje("3", "C-17", "https://cdn.alfabetajuega.com/alfabetajuega/2019/10/dragon-ball-androide-17.jpg?width=300", 100, 100),
-        Personaje("4", "C-18", "https://cdn.alfabetajuega.com/alfabetajuega/2020/01/Androide-18.jpg?width=300", 100, 100)
-
-    )
 }

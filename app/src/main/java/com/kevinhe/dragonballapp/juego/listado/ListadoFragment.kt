@@ -13,12 +13,13 @@ import com.kevinhe.dragonballapp.juego.JuegoViewModel
 import com.kevinhe.dragonballapp.juego.PersonajeAdapter
 import kotlinx.coroutines.launch
 import androidx.fragment.app.activityViewModels
+import com.kevinhe.dragonballapp.juego.OpcionesJuego
 
 class ListadoFragment: Fragment() {
 
     private val personajesAdapter = PersonajeAdapter(
         onPersonajeClicked = { personaje ->
-            Toast.makeText(this.context, personaje.nombre, Toast.LENGTH_SHORT).show()
+            viewModel.personajeSeleccionado(personaje)
         }
     )
 
@@ -54,6 +55,9 @@ class ListadoFragment: Fragment() {
                      }
                     is JuegoViewModel.State.Error -> {
                         binding.pbLoading.visibility = View.GONE
+                    }
+                    is JuegoViewModel.State.PersonajeSeleccionado -> {
+                        (activity as? OpcionesJuego)?.irAlDetalle()
                     }
                 }
 
