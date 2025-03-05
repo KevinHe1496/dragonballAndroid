@@ -20,4 +20,12 @@
         tools:text="Nombre del personaje"
         android:textSize="18dp"/>
 
+    <TextView
+        android:id="@+id/tvVida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="50/100"
+        android:textSize="18dp"
+        android:gravity="end"/>
+
 </LinearLayout>

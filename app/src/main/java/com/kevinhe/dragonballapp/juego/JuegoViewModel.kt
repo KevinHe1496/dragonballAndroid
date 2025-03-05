@@ -32,8 +32,13 @@ class JuegoViewModel: ViewModel() {
 
     val uiState: StateFlow<State> = _uistate.asStateFlow()
 
+    fun golpearPersonaje(personaje: Personaje) {
+        personaje.vidaActual -= 10
+    }
+
     // este personaje se a seleccionado
     fun personajeSeleccionado(personaje: Personaje) {
+        personaje.vecesSelecionado++
         _uistate.value = State.PersonajeSeleccionado(personaje)
     }
 

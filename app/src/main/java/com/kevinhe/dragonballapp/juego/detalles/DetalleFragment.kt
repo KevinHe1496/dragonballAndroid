@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.kevinhe.dragonballapp.databinding.FragmentDetalleBinding
 import com.kevinhe.dragonballapp.juego.JuegoViewModel
+import com.kevinhe.dragonballapp.model.Personaje
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -28,8 +29,22 @@ class DetalleFragment: Fragment() {
 
         // Inicia la observación de cambios en el ViewModel
         initObservers()
-
         return binding.root
+    }
+
+    private fun initViews(personaje: Personaje) {
+        with(binding) {
+        // Muestra el nombre del personaje seleccionado en un TextView
+        tvNombre.text = personaje.nombre
+
+            // Asigna un valor a la barra de vida (entre 0 y 100)
+            pbVida.progress = personaje.vidaActual
+        bGolpear.setOnClickListener {
+            viewModel.golpearPersonaje(personaje)
+            // Asigna un valor a la barra de vida (entre 0 y 100)
+            pbVida.progress = personaje.vidaActual
+            }
+        }
     }
 
     // Función que observa el estado de la UI en el ViewModel y actualiza la interfaz cuando cambia
@@ -38,15 +53,19 @@ class DetalleFragment: Fragment() {
             viewModel.uiState.collect { state -> // Recolecta cambios en el estado del ViewModel
                 when(state) {
                     is JuegoViewModel.State.PersonajeSeleccionado -> {
-                        // Muestra el nombre del personaje seleccionado en un TextView
-                        binding.tvNombre.text = state.personaje.nombre
+                        initViews(state.personaje)
 
-                        // Asigna un valor aleatorio a la barra de vida (entre 0 y 100)
-                        binding.pbVida.progress = Random.nextInt(0, 100)
                     }
                     else -> Unit // Si el estado no es relevante, no hace nada
                 }
             }
         }
     }
+
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.personajeDeseleccionado()
+    }
+
 }

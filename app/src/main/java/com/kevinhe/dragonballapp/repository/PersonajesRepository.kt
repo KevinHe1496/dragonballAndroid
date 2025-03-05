@@ -23,6 +23,11 @@ class PersonajesRepository {
         var client = OkHttpClient()
         val url = "${BASE_URL}heros/all"
 
+        //TODO para completar el vecesSelccionado.
+        // tendremos que guardar en las sharedPreferences la lista de personajes con todos sus datos
+        // antes de llamar a ainternet, comprobaren la sharedPreferences. si no hay nada, vamos a internet.
+        // si tenemos datos previo, lo cargamos de las preferencias
+
         val formBody = FormBody.Builder()
             .add("name", "")
             .build()

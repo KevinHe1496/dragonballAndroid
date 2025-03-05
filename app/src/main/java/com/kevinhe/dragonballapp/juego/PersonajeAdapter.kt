@@ -32,6 +32,7 @@ class PersonajeAdapter(
                 .centerInside()
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(biding.ivPhoto)
+            biding.tvVida.text = "${personaje.vidaActual} / ${personaje.vidaTotal}"
             biding.root.setOnClickListener {
                 onPersonajeClicked(personaje)
             }
