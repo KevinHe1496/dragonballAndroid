@@ -49,7 +49,6 @@ class PersonajesRepository {
                    vidaTotal = 100,
                )
            }
-           listaPersonajes = mutableListOf() // guardamos nuestros personajes aqui
             PersonajesResponse.Success(listaPersonajes)
         } else {
             PersonajesResponse.Error("Error al descargar los personajes. ${response.message}")

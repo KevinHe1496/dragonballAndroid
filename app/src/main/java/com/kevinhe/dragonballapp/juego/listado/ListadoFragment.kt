@@ -64,4 +64,10 @@ class ListadoFragment: Fragment() {
             }
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.personajeDeseleccionado()
+    }
 }
+

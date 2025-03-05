@@ -37,6 +37,21 @@ class JuegoViewModel: ViewModel() {
         _uistate.value = State.PersonajeSeleccionado(personaje)
     }
 
+
+    fun personajeDeseleccionado() {
+        val resultado = personajeRepository.fetchPersonajes(userRepository.getToken())
+        when (resultado) {
+            is PersonajesRepository.PersonajesResponse.Success -> {
+                _uistate.value = State.Success(resultado.personajes)
+            }
+
+            is PersonajesRepository.PersonajesResponse.Error -> {
+                _uistate.value = State.Error(resultado.message)
+            }
+        }
+    }
+
+
     fun descargarPersonajes() {
 
         viewModelScope.launch(Dispatchers.IO) {
