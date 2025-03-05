@@ -28,7 +28,7 @@ class PersonajeAdapter(
 
             Glide
                 .with(biding.root)
-                .load(personaje.imageUrl)
+                .load(personaje.imagenUrl)
                 .centerInside()
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(biding.ivPhoto)

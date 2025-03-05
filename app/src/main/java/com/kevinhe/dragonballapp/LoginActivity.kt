@@ -67,8 +67,7 @@ class LoginActivity : AppCompatActivity() {
                     is LoginViewModel.State.Success -> {
                         // TODO ir a la siguiente pantalla
                         biding.pbLoading.visibility = View.INVISIBLE
-                        Toast.makeText(this@LoginActivity, "Ha ocurrido un error. ${state.token}", Toast.LENGTH_SHORT).show()
-                        startJuegoActivity(state.token)
+                        startJuegoActivity()
                     }
                     is LoginViewModel.State.Error -> {
                         biding.pbLoading.visibility = View.INVISIBLE
@@ -79,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun startJuegoActivity(token: String) {
-        JuegoActivity.startJuegoActivity(this, token)
+    private fun startJuegoActivity() {
+        JuegoActivity.startJuegoActivity(this)
     }
 }
