@@ -14,6 +14,7 @@ import com.kevinhe.dragonballapp.juego.PersonajeAdapter
 import kotlinx.coroutines.launch
 import androidx.fragment.app.activityViewModels
 import com.kevinhe.dragonballapp.juego.OpcionesJuego
+import kotlinx.coroutines.Job
 
 class ListadoFragment: Fragment() {
 
@@ -24,6 +25,7 @@ class ListadoFragment: Fragment() {
     )
 
     private val viewModel: JuegoViewModel by activityViewModels()
+    private var job: Job? = null
 
     private lateinit var binding: FragmentListadoBinding
 
@@ -43,7 +45,7 @@ class ListadoFragment: Fragment() {
     }
 
     private fun initObservers() {
-        lifecycleScope.launch {
+      job = lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 when(state) {
                     is JuegoViewModel.State.Loading -> {
@@ -63,6 +65,11 @@ class ListadoFragment: Fragment() {
 
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
     }
 }
 

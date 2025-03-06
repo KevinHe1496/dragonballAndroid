@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.kevinhe.dragonballapp.databinding.FragmentDetalleBinding
 import com.kevinhe.dragonballapp.juego.JuegoViewModel
 import com.kevinhe.dragonballapp.model.Personaje
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -18,6 +19,7 @@ class DetalleFragment: Fragment() {
 
     private lateinit var binding: FragmentDetalleBinding // Binding para acceder a la vista
     private val viewModel: JuegoViewModel by activityViewModels() // ViewModel compartido con la actividad
+    private var job: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +51,7 @@ class DetalleFragment: Fragment() {
 
     // Función que observa el estado de la UI en el ViewModel y actualiza la interfaz cuando cambia
     private fun initObservers() {
-        lifecycleScope.launch {
+        job = lifecycleScope.launch {
             viewModel.uiState.collect { state -> // Recolecta cambios en el estado del ViewModel
                 when(state) {
                     is JuegoViewModel.State.PersonajeSeleccionado -> {
@@ -65,6 +67,7 @@ class DetalleFragment: Fragment() {
 
     override fun onStop() {
         super.onStop()
+        job?.cancel()
         viewModel.personajeDeseleccionado()
     }
 

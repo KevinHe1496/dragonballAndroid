@@ -80,5 +80,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun startJuegoActivity() {
         JuegoActivity.startJuegoActivity(this)
+        finish()
     }
 }

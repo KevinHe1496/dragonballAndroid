@@ -65,7 +65,6 @@ class JuegoActivity : AppCompatActivity(), OpcionesJuego {
     override fun irAlListado() {
         supportFragmentManager.beginTransaction().apply {
             replace(biding.flHome.id, ListadoFragment()) // Reemplaza el fragmento actual con el de listado
-            addToBackStack(Random.nextInt().toString()) // Agrega la transacción al historial de navegación
             commit() // Confirma el cambio
         }
     }
