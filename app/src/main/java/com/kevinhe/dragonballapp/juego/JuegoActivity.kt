@@ -50,7 +50,7 @@ class JuegoActivity : AppCompatActivity(), OpcionesJuego {
         setContentView(biding.root)
 
         // Llama a la función para descargar la lista de personajes desde el ViewModel
-        viewModel.descargarPersonajes()
+        viewModel.descargarPersonajes(getSharedPreferences("my_preferences", Context.MODE_PRIVATE))
 
         // Inicializa los fragmentos mostrando el listado de personajes
         initFragments()

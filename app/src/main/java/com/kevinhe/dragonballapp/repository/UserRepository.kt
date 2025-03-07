@@ -1,5 +1,6 @@
 package com.kevinhe.dragonballapp.repository
 
+import androidx.annotation.VisibleForTesting
 import kotlin.random.Random
 
 class UserRepository {
@@ -23,5 +24,6 @@ class UserRepository {
     }
 
     fun getToken() : String = token
-
+    @VisibleForTesting
+    fun setToken(token: String) { UserRepository.token = token}
 }

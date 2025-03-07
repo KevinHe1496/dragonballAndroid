@@ -1,20 +1,17 @@
 package com.kevinhe.dragonballapp.juego
 
-import android.media.session.MediaSession.Token
+import android.content.SharedPreferences
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kevinhe.dragonballapp.model.Personaje
 import com.kevinhe.dragonballapp.repository.PersonajesRepository
 import com.kevinhe.dragonballapp.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 class JuegoViewModel: ViewModel() {
 
@@ -28,7 +25,9 @@ class JuegoViewModel: ViewModel() {
 
     private val _uistate = MutableStateFlow<State>(State.Loading)
     private val personajeRepository = PersonajesRepository()
-    private val userRepository = UserRepository()
+
+    @VisibleForTesting
+    val userRepository = UserRepository()
 
     val uiState: StateFlow<State> = _uistate.asStateFlow()
 
@@ -44,7 +43,9 @@ class JuegoViewModel: ViewModel() {
 
 
     fun personajeDeseleccionado() {
-        val resultado = personajeRepository.fetchPersonajes(userRepository.getToken())
+        val resultado = personajeRepository.fetchPersonajes(
+            userRepository.getToken()
+        )
         when (resultado) {
             is PersonajesRepository.PersonajesResponse.Success -> {
                 _uistate.value = State.Success(resultado.personajes)
@@ -57,12 +58,12 @@ class JuegoViewModel: ViewModel() {
     }
 
 
-    fun descargarPersonajes() {
+    fun descargarPersonajes(sharedPreferences: SharedPreferences) {
 
         viewModelScope.launch(Dispatchers.IO) {
             _uistate.value = State.Loading
 
-            val resultado = personajeRepository.fetchPersonajes(userRepository.getToken())
+            val resultado = personajeRepository.fetchPersonajes(userRepository.getToken(), sharedPreferences)
             when (resultado) {
                 is PersonajesRepository.PersonajesResponse.Success -> {
                     _uistate.value = State.Success(resultado.personajes)
